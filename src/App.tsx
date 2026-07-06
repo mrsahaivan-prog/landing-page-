@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { CustomVideoPlayer } from "./components/CustomVideoPlayer";
 import {
   Play,
   Volume2,
@@ -614,13 +615,17 @@ export default function App() {
 
             {/* Embedded video player */}
             {isPlaying && (
-              <div className="w-full h-full relative z-10 bg-black pt-5">
-                <iframe
-                  src="https://drive.google.com/file/d/1DzDYNWTpTvm3ChHw1p7ykrtVTgbjnABH/preview"
-                  className="w-full h-full border-0 absolute inset-0"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                  title="Présentation MZ+"
+              <div className="w-full h-full relative z-10 bg-black">
+                <CustomVideoPlayer
+                  onPlayStateChange={(playing) => {
+                    setIsPlaying(playing);
+                    if (playing) {
+                      setTimerStarted(true);
+                    }
+                  }}
+                  onEnded={() => {
+                    setIsPlaying(false);
+                  }}
                 />
               </div>
             )}
